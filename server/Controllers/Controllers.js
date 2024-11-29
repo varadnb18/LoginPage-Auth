@@ -1,18 +1,33 @@
 import User from "../Models/User-Model.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const LoginAPI = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
+
+    // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (isPasswordValid) {
-      return res.status(200).json({ msg: "Login Successfull" });
+      // Generate JWT token
+      const token = jwt.sign(
+        { id: user._id, email: user.email },
+        process.env.secretkey, // Replace with an environment variable
+        { expiresIn: "1h" } // Token expiration time
+      );
+
+      return res.status(200).json({ msg: "Login Successful", token });
     } else {
-      res.status(401).json({ msg: "Invalid email or password" });
+      return res.status(401).json({ msg: "Invalid email or password" });
     }
   } catch (error) {
     console.error("Error during login:", error);
