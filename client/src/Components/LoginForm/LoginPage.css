@@ -155,6 +155,34 @@ label {
   top: -2px;
 }
 
+.label1 {
+  position: absolute;
+  left: 0;
+  top: -10px; /* Move label to the top initially */
+  font-size: 0.75rem; /* Smaller font size for top position */
+  color: #bbb;
+  pointer-events: none;
+}
+
+.input-field1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #bbb;
+  padding: 0;
+  font-size: 0.95rem;
+  color: #151111;
+}
+
+.input-wrap1 {
+  position: relative;
+  height: 37px;
+  margin-bottom: 2rem;
+}
+
 .sign-btn {
   display: inline-block;
   width: 100%;
@@ -163,10 +191,17 @@ label {
   color: #fff;
   border: none;
   cursor: pointer;
+  text-align: center;
   border-radius: 0.8rem;
   font-size: 0.8rem;
   margin-bottom: 2rem;
   transition: 0.3s;
+}
+
+.submit-btn {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
 }
 
 .sign-btn:hover {

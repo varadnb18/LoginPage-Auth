@@ -3,12 +3,13 @@ import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
 
-const SignUpForm = ({ handleFocus, handleBlur, toggleForm, setPage }) => {
+const SignUpNext = ({ handleFocus, handleBlur, toggleForm, setPage }) => {
   const [signup, setSignup] = useState({
-    username: "",
-    email: "",
-    password: "",
+    DOB: "",
+    Gender: "",
+    heightWeight: "",
   });
 
   const navigate = useNavigate();
@@ -35,9 +36,9 @@ const SignUpForm = ({ handleFocus, handleBlur, toggleForm, setPage }) => {
           alert("Login successful!");
           navigate("/");
           setSignup({
-            username: "",
-            email: "",
-            password: "",
+            DOB: "",
+            Gender: "",
+            heightWeight: "",
           });
         }
       })
@@ -64,60 +65,63 @@ const SignUpForm = ({ handleFocus, handleBlur, toggleForm, setPage }) => {
       </div>
 
       <div className="actual-form">
+        <div className="input-wrap1">
+          <input
+            type="date"
+            name="DOB"
+            className="input-field1"
+            value={signup.DOB}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            required
+          />
+          <label className="label1">Date of Birth</label>
+        </div>
+
+        <div className="input-wrap">
+          <select
+            name="Gender"
+            className="input-field"
+            value={signup.Gender}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            required
+          >
+            <option value=""></option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <label>Gender</label>
+        </div>
+
         <div className="input-wrap">
           <input
             type="text"
-            minLength="4"
-            name="username"
-            value={signup.username}
+            name="heightWeight"
             className="input-field"
-            autoComplete="off"
-            required
+            value={signup.heightWeight}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChange}
+            required
           />
-          <label>Name</label>
+          <label>Height/Weight (e.g., 170cm / 70kg)</label>
         </div>
 
-        <div className="input-wrap">
+        <div className="submit-btn">
           <input
-            type="email"
-            name="email"
-            className="input-field"
-            value={signup.email}
-            autoComplete="off"
-            required
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={handleChange}
+            value="Prev"
+            className="sign-btn"
+            onClick={() => {
+              setPage((currpage) => currpage - 1);
+            }}
           />
-          <label>Email</label>
+          <input type="submit" value="Sign Up" className="sign-btn" />
         </div>
 
-        <div className="input-wrap">
-          <input
-            type="password"
-            name="password"
-            minLength="4"
-            className="input-field"
-            value={signup.password}
-            autoComplete="off"
-            required
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-          <label>Password</label>
-        </div>
-        <input
-          value="Next"
-          className="sign-btn"
-          type="submit"
-          onClick={() => {
-            setPage((currpage) => currpage + 1);
-          }}
-        />
         <p className="text">
           By signing up, I agree to the
           <Link to="#">Terms of Services</Link> and
@@ -128,4 +132,4 @@ const SignUpForm = ({ handleFocus, handleBlur, toggleForm, setPage }) => {
   );
 };
 
-export default SignUpForm;
+export default SignUpNext;

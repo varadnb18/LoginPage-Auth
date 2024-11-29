@@ -26,8 +26,8 @@ const SignInForm = ({ handleFocus, handleBlur, toggleForm }) => {
 
     axios
       .post("http://localhost:4000/Login", signin)
-      .then((response) => {
-        const { token } = response.data;
+      .then((res) => {
+        const { token } = res.data;
 
         if (token) {
           localStorage.setItem("authToken", token);

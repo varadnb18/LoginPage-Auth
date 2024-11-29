@@ -8,21 +8,17 @@ dotenv.config();
 export const LoginAPI = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
 
-    // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (isPasswordValid) {
-      // Generate JWT token
       const token = jwt.sign(
         { id: user._id, email: user.email },
-        process.env.secretkey, // Replace with an environment variable
-        { expiresIn: "1h" } // Token expiration time
+        process.env.secretkey,
+        { expiresIn: "1h" }
       );
 
       return res.status(200).json({ msg: "Login Successful", token });
@@ -52,9 +48,16 @@ export const RegisterAPI = async (req, res) => {
       password: hash_password,
     });
 
+    const token = jwt.sign(
+      { id: newUser._id, email: newUser.email },
+      process.env.secretkey,
+      { expiresIn: "1h" }
+    );
+
     return res.status(201).json({
       msg: "User registered successfully",
       data: newUser,
+      token,
     });
   } catch (error) {
     console.error("Error during registration:", error);
