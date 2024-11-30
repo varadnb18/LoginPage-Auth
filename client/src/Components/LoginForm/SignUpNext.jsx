@@ -1,41 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
 
-const SignUpNext = ({ handleFocus, handleBlur, toggleForm, setPage }) => {
-  const [signup, setSignup] = useState({
-    DOB: "",
-    Gender: "",
-    heightWeight: "",
-  });
-
+const SignUpNext = ({
+  handleFocus,
+  handleBlur,
+  toggleForm,
+  setPage,
+  signup,
+  handleChange,
+  setSignup,
+}) => {
   const navigate = useNavigate();
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setSignup((prevalue) => ({
-      ...prevalue,
-      [name]: value,
-    }));
-  }
 
   function handleSubmit(event) {
     event.preventDefault();
 
+    const heightAndWeight = {
+      height: parseInt(
+        signup.heightWeight.split(" / ")[0].replace("cm", "").trim()
+      ), // Remove 'cm' and convert to number
+      weight: parseInt(
+        signup.heightWeight.split(" / ")[1].replace("Kg", "").trim()
+      ), // Remove 'Kg' and convert to number
+    };
+
+    const dataToSend = {
+      ...signup,
+      heightAndWeight, // Attach the structured heightAndWeight object
+    };
+
     axios
-      .post("http://localhost:4000/register", signup)
+      .post("http://localhost:4000/register", dataToSend)
       .then((res) => {
-        console.log("Signup successful:", res.data);
+        console.log("Signup successful:", res.data, dataToSend);
         const { token } = res.data;
         if (token) {
           localStorage.setItem("authToken", token);
           alert("Login successful!");
           navigate("/");
           setSignup({
+            username: "",
+            email: "",
+            password: "",
             DOB: "",
             Gender: "",
             heightWeight: "",

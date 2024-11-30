@@ -1,59 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const SignUpForm = ({ handleFocus, handleBlur, toggleForm, setPage }) => {
-  const [signup, setSignup] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const navigate = useNavigate();
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    setSignup((prevalue) => ({
-      ...prevalue,
-      [name]: value,
-    }));
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    axios
-      .post("http://localhost:4000/register", signup)
-      .then((res) => {
-        console.log("Signup successful:", res.data);
-        const { token } = res.data;
-        if (token) {
-          localStorage.setItem("authToken", token);
-          alert("Login successful!");
-          navigate("/");
-          setSignup({
-            username: "",
-            email: "",
-            password: "",
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error during signup:", error.res?.data || error.message);
-        alert("Signup failed. Please try again.");
-      });
-  }
-
+const SignUpForm = ({
+  handleFocus,
+  handleBlur,
+  toggleForm,
+  setPage,
+  signup,
+  handleChange,
+}) => {
   return (
-    <form
-      action="index.html"
-      autoComplete="off"
-      className="sign-up-form"
-      onSubmit={handleSubmit}
-    >
+    <form action="index.html" autoComplete="off" className="sign-up-form">
       <Logo />
       <div className="heading">
         <h2>Get Started</h2>
@@ -113,7 +71,6 @@ const SignUpForm = ({ handleFocus, handleBlur, toggleForm, setPage }) => {
         <input
           value="Next"
           className="sign-btn"
-          type="submit"
           onClick={() => {
             setPage((currpage) => currpage + 1);
           }}

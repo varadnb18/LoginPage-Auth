@@ -33,7 +33,8 @@ export const LoginAPI = async (req, res) => {
 
 export const RegisterAPI = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, DOB, Gender, heightAndWeight } =
+      req.body;
 
     const UserExist = await User.findOne({ email });
     if (UserExist) {
@@ -46,6 +47,9 @@ export const RegisterAPI = async (req, res) => {
       username,
       email,
       password: hash_password,
+      DOB,
+      Gender,
+      heightAndWeight,
     });
 
     const token = jwt.sign(

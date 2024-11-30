@@ -19,27 +19,27 @@ const UserSchema = new mongoose.Schema({
 
   DOB: {
     type: Date,
-    // required: true,
+    required: true, // Assuming DOB is required
   },
 
   Gender: {
     type: String,
     enum: ["Male", "Female", "Other"],
-    // required: true,
+    required: true, // Assuming Gender is required
   },
 
   heightAndWeight: {
     type: {
       height: {
         type: Number,
-        // required: true,
+        required: true, // Assuming height is required
       },
       weight: {
         type: Number,
-        // required: true,
+        required: true, // Assuming weight is required
       },
     },
-    // required: true,
+    required: true, // Assuming heightAndWeight object is required
   },
 });
 
